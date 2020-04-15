@@ -1,5 +1,5 @@
 # dragButton
-全屏可拖拽的按钮
+### 1全屏可拖拽的按钮
 
 ```objc
 /**
@@ -11,9 +11,13 @@
 - (void)pj_addDragMovingAdhere:(BOOL)adhere clickBlock:(void (^) (UIButton *button))block
 
 ```
-### 示例代码：
+#### 1.1示例代码：
+
+
 
 ```objc
+
+\\导入 UIView+DragButton.h 文件
 
 UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
     button.frame = CGRectMake(10, 150, 30, 30);
@@ -26,3 +30,16 @@ UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
     }];
     
 ```
+
+### 2 扩大按钮的点击选区
+
+> `objc_setAssociatedObject`和`objc_getAssociatedObject`方法，另外涉及`pointInside`响应者链知识，理解自己找。
+
+```
+\\UIEdgeInsets --上、左、下、右
+
+- (void)expandReQu:(UIEdgeInsets)edgeQu;
+
+```
+>  直接调用，block写点击操作；就可以了；
+
