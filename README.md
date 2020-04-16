@@ -31,7 +31,7 @@ UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
     
 ```
 
-### 2 扩大按钮的点击选区
+#### 2 扩大按钮的点击选区
 
 > `objc_setAssociatedObject`和`objc_getAssociatedObject`方法，另外涉及`pointInside`响应者链知识，理解自己找。
 
@@ -43,3 +43,41 @@ UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
 ```
 >  直接调用，block写点击操作；就可以了；
 
+#### 3 自定义模型保存
+
+> 自定义模型继承`PJBaseModel`，就ok了... 例如：`CacheModel`
+
+```swift
+// 归档
+
+-(void)encodeMdoel{
+  
+    CacheModel *model = [CacheModel new];
+    model.name = @"moses";
+    model.ID = @"10086";
+    model.age = 18;
+    model.gender = 1;
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *filePath = [documentPath stringByAppendingPathComponent:@"gitos001"];
+   // [NSKeyedArchiver archiveRootObject:model toFile:filePath];
+    
+   
+  NSData*data=[NSKeyedArchiver archivedDataWithRootObject:model requiringSecureCoding:YES error:nil];
+    
+    [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+    [data writeToFile:filePath atomically:YES];
+}
+
+// 解档
+-(void)decodeModel{
+    
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *filePath = [documentPath stringByAppendingPathComponent:@"gitos001"];
+    NSData*data=[NSData dataWithContentsOfFile:filePath];
+    CacheModel *model = [NSKeyedUnarchiver unarchivedObjectOfClass:[CacheModel class] fromData:data error:nil];
+    NSLog(@"%@--%@--%ld--%d", model.name, model.ID, (long)model.age, model.gender);
+    
+}
+
+
+```
